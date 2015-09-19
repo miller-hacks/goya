@@ -12,6 +12,9 @@ $(function() {
 				data: data,
 				success: function(data) {
 					console.log(data);
+
+					$('#image').attr('src', imageUrl);
+					$('#faceCoordinates').text(data);
 				}
 			})
 		}
