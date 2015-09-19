@@ -7,24 +7,38 @@ import (
 	"net/http"
 )
 
-type RequestJSON struct {
+type DetectRequest struct {
 	URL string
+}
+
+func handleError(w http.ResponseWriter, err error, status int) {
+	log.Println(err)
+	w.WriteHeader(http.StatusInternalServerError)
 }
 
 func DetectHandler(w http.ResponseWriter, r *http.Request) {
 	log.Println("request!")
-	body, _ := ioutil.ReadAll(r.Body)
-	log.Println(string(body))
-	defer r.Body.Close()
-	var rj = RequestJSON{}
-	err := json.Unmarshal(body, &rj)
+	body, err := ioutil.ReadAll(r.Body)
 	if err != nil {
-		log.Println("error!")
+		handleError(w, err, http.StatusInternalServerError)
+		return
 	}
-	reader, _ := downloadFromUrl(rj.URL)
+	defer r.Body.Close()
+	var dr DetectRequest
+	err = json.Unmarshal(body, &dr)
+	if err != nil {
+		handleError(w, err, http.StatusInternalServerError)
+		return
+	}
+	reader, err := downloadFromUrl(dr.URL)
+	if err != nil {
+		handleError(w, err, http.StatusInternalServerError)
+		return
+	}
 	f, err := faces(reader)
 	if err != nil {
-		log.Println(err)
+		handleError(w, err, http.StatusInternalServerError)
+		return
 	}
 	log.Println(f)
 	w.Header().Set("Content-Type", "application/json")
