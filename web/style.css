@@ -2,6 +2,7 @@
 	width: 300px;
 }
 
-#image {
+#canvas {
+	height: 400px;
 	width: 400px;
 }
