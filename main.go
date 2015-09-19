@@ -8,7 +8,11 @@ import (
 )
 
 type DetectRequest struct {
-	URL string
+	URL string `json:"url"`
+}
+
+type DetectResponse struct {
+	Faces []*Face `json:"faces"`
 }
 
 func handleError(w http.ResponseWriter, err error, status int) {
@@ -39,8 +43,11 @@ func DetectHandler(w http.ResponseWriter, r *http.Request) {
 		handleError(w, err, http.StatusInternalServerError)
 		return
 	}
+	resp := &DetectResponse{
+		Faces: f,
+	}
 	w.Header().Set("Content-Type", "application/json")
-	json.NewEncoder(w).Encode(f)
+	json.NewEncoder(w).Encode(resp)
 }
 
 func init() {
