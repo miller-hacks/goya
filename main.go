@@ -29,7 +29,7 @@ func DetectHandler(w http.ResponseWriter, r *http.Request) {
 		handleError(w, err, http.StatusInternalServerError)
 		return
 	}
-	reader, err := downloadFromUrl(dr.URL)
+	reader, err := downloadFromURL(dr.URL)
 	if err != nil {
 		handleError(w, err, http.StatusInternalServerError)
 		return
