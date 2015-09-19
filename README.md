@@ -5,7 +5,7 @@ Our brand-new bleeding-edge server
 
 POST data with image url
 
-```
+```http
 POST / HTTP/1.1
 Accept: application/json
 Accept-Encoding: gzip, deflate
@@ -21,7 +21,7 @@ User-Agent: HTTPie/0.8.0
 
 response:
 
-```
+```http
 HTTP/1.1 200 OK
 Content-Length: 43
 Content-Type: application/json
