@@ -11,7 +11,7 @@ import (
 func downloadFromURL(url string) (*bytes.Reader, error) {
 	response, err := http.Get(url)
 	if err != nil {
-		return nil, errors.New(fmt.Sprintf("Error while downloading", url, "-", err))
+		return nil, errors.New(fmt.Sprintf("Error while downloading %s: %s", url, err))
 	}
 	defer response.Body.Close()
 
@@ -19,7 +19,5 @@ func downloadFromURL(url string) (*bytes.Reader, error) {
 	if err != nil {
 		return nil, errors.New("Error casting Closer to bytes")
 	}
-	imageReader := bytes.NewReader(imageBytes)
-
-	return imageReader, nil
+	return bytes.NewReader(imageBytes), nil
 }

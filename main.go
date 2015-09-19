@@ -50,7 +50,7 @@ func init() {
 func main() {
 	http.HandleFunc("/", DetectHandler)
 	fs := http.FileServer(http.Dir("web"))
-	http.Handle("/web/", fs)
+	http.Handle("/web/", http.StripPrefix("/web/", fs))
 	log.Println("Server started")
 	log.Fatal(http.ListenAndServe(":8000", nil))
 }
