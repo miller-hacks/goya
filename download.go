@@ -23,7 +23,3 @@ func downloadFromUrl(url string) (*bytes.Reader, error) {
 
 	return imageReader, nil
 }
-
-func main() {
-	downloadFromUrl("https://pp.vk.me/c622920/v622920070/46cb0/otOfIiFiXik.jpg")
-}
