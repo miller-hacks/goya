@@ -12,10 +12,10 @@ import (
 )
 
 type Face struct {
-	PointX int
-	PointY int
-	Width  int
-	Height int
+	PointX int `json:"x"`
+	PointY int `json:"y"`
+	Width  int `json:"width"`
+	Height int `json:"height"`
 }
 
 func currentDir() string {
