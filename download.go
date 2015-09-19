@@ -34,12 +34,11 @@ func downloadFromUrl(url string) (*bytes.Reader, error) {
 
 	// fmt.Println(n, "bytes downloaded.")
 
-	imageBytes, _ := ioutil.ReadAll(response.Body)
+	imageBytes, err := ioutil.ReadAll(response.Body)
+	if err != nil {
+		return nil, errors.New("Error casting Closer to bytes")
+	}
 	imageReader := bytes.NewReader(imageBytes)
 
 	return imageReader, nil
-}
-
-func main() {
-	downloadFromUrl("https://pp.vk.me/c622920/v622920070/46cb0/otOfIiFiXik.jpg")
 }
