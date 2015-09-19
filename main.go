@@ -11,7 +11,7 @@ type RequestJSON struct {
 	URL string
 }
 
-func upload_handler(w http.ResponseWriter, r *http.Request) {
+func DetectHandler(w http.ResponseWriter, r *http.Request) {
 	log.Println("request!")
 	body, _ := ioutil.ReadAll(r.Body)
 	log.Println(string(body))
@@ -21,10 +21,15 @@ func upload_handler(w http.ResponseWriter, r *http.Request) {
 	if err != nil {
 		log.Println("error!")
 	}
-	log.Println(rj)
+	reader, _ := downloadFromUrl(rj.URL)
+	f, err := faces(reader)
+	if err != nil {
+		log.Println(err)
+	}
+	log.Println(f)
 }
 
 func main() {
-	http.HandleFunc("/", upload_handler)
+	http.HandleFunc("/", DetectHandler)
 	log.Fatal(http.ListenAndServe(":8080", nil))
 }

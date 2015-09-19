@@ -1,7 +1,6 @@
 package main
 
 import (
-	"bytes"
 	"image"
 	"io"
 	"log"
@@ -29,7 +28,7 @@ func detect(cascade *opencv.HaarCascade, r io.Reader) ([]*Face, error) {
 		return []*Face{}, err
 	}
 	log.Printf("Image format: %s", format)
-	rects := cascade.DetectObjects(img)
+	rects := cascade.DetectObjects(opencv.FromImage(img))
 
 	faces := []*Face{}
 
