@@ -11,22 +11,29 @@ $(function() {
 				contentType: "application/json; charset=utf-8",
 				data: data,
 				success: function(data) {
-					(function draw(imageUrl, faces) {
-						var ctx = document.getElementById('canvas').getContext('2d');
-						var img = new Image();
+					$('#image').attr('src', imageUrl);
 
+					(function draw(imageUrl, faces) {
+						var canvas = document.getElementById('canvas');
+						var ctx = canvas.getContext('2d');
+						var img = new Image();
+						
 						img.onload = function() {
-							console.log('adada');
-							console.log(imageUrl);
-							for (var idx=0; idx<=faces.len; idx++) {
-								console.log(idx);
+							canvas.width = 1200;
+							canvas.height = 1200;
+
+							ctx.drawImage(img, 0, 0);
+							ctx.strokeStyle = 'white';
+							ctx.lineWidth=2.5;
+
+							for (var idx=0; idx<faces.length; idx++) {							
 								var obj = faces[idx];
-								ctx.drawImage(img,0,0);
 								ctx.beginPath();
 								ctx.moveTo(obj.x, obj.y);
-								
-								ctx.lineTo(obj.x + obj.height, obj.y);
-								ctx.lineTo(obj.x, obj.y + obj.width);
+								ctx.lineTo(obj.x + obj.width, obj.y);
+								ctx.lineTo(obj.x + obj.width, obj.y + obj.height);
+								ctx.lineTo(obj.x, obj.y + obj.height);
+								ctx.lineTo(obj.x, obj.y);
 
 								ctx.stroke();
 							}
