@@ -27,9 +27,16 @@ func DetectHandler(w http.ResponseWriter, r *http.Request) {
 		log.Println(err)
 	}
 	log.Println(f)
+	w.Header().Set("Content-Type", "application/json")
+	json.NewEncoder(w).Encode(f)
+}
+
+func init() {
+	log.SetFlags(log.Ldate | log.Ltime | log.Lshortfile)
 }
 
 func main() {
 	http.HandleFunc("/", DetectHandler)
+	log.Println("Server started")
 	log.Fatal(http.ListenAndServe(":8000", nil))
 }
