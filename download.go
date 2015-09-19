@@ -1,30 +1,28 @@
 package main
 
 import (
+	"bytes"
+	"errors"
 	"fmt"
-	"image"
-	"io"
+	"io/ioutil"
 	"net/http"
 	"os"
 	"strings"
 )
 
-func downloadFromUrl(url string) {
+func downloadFromUrl(url string) (*bytes.Reader, error) {
 	tokens := strings.Split(url, "/")
 	fileName := tokens[len(tokens)-1]
-	fmt.Println("Downloading", url, "to", fileName)
 
 	output, err := os.Create(fileName)
 	if err != nil {
-		fmt.Println("Error while creating", fileName, "-", err)
-		return
+		return nil, errors.New(fmt.Sprintf("Error while creating", fileName, "-", err))
 	}
 	defer output.Close()
 
 	response, err := http.Get(url)
 	if err != nil {
-		fmt.Println("Error while downloading", url, "-", err)
-		return
+		return nil, errors.New(fmt.Sprintf("Error while downloading", url, "-", err))
 	}
 	defer response.Body.Close()
 
@@ -34,9 +32,12 @@ func downloadFromUrl(url string) {
 	// 	return
 	// }
 
-	fmt.Println(n, "bytes downloaded.")
+	// fmt.Println(n, "bytes downloaded.")
 
-	return response.Body
+	imageBytes, _ := ioutil.ReadAll(response.Body)
+	imageReader := bytes.NewReader(imageBytes)
+
+	return imageReader, nil
 }
 
 func main() {
