@@ -8,7 +8,7 @@ import (
 	"net/http"
 )
 
-func downloadFromUrl(url string) (*bytes.Reader, error) {
+func downloadFromURL(url string) (*bytes.Reader, error) {
 	response, err := http.Get(url)
 	if err != nil {
 		return nil, errors.New(fmt.Sprintf("Error while downloading", url, "-", err))
