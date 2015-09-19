@@ -17,7 +17,6 @@ func handleError(w http.ResponseWriter, err error, status int) {
 }
 
 func DetectHandler(w http.ResponseWriter, r *http.Request) {
-	log.Println("request!")
 	body, err := ioutil.ReadAll(r.Body)
 	if err != nil {
 		handleError(w, err, http.StatusInternalServerError)
@@ -40,7 +39,6 @@ func DetectHandler(w http.ResponseWriter, r *http.Request) {
 		handleError(w, err, http.StatusInternalServerError)
 		return
 	}
-	log.Println(f)
 	w.Header().Set("Content-Type", "application/json")
 	json.NewEncoder(w).Encode(f)
 }
