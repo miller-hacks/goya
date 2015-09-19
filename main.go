@@ -2,6 +2,7 @@ package main
 
 import (
 	"encoding/json"
+	"flag"
 	"io/ioutil"
 	"log"
 	"net/http"
@@ -59,5 +60,7 @@ func main() {
 	fs := http.FileServer(http.Dir("web"))
 	http.Handle("/web/", http.StripPrefix("/web/", fs))
 	log.Println("Server started")
-	log.Fatal(http.ListenAndServe(":8000", nil))
+	var ip_port = flag.String("b", ":8000", "address:port")
+	flag.Parse()
+	log.Fatal(http.ListenAndServe(*ip_port, nil))
 }
