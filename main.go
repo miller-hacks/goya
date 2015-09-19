@@ -22,7 +22,10 @@ func DetectHandler(w http.ResponseWriter, r *http.Request) {
 		log.Println("error!")
 	}
 	reader, _ := downloadFromUrl(rj.URL)
-	f, _ := faces(reader)
+	f, err := faces(reader)
+	if err != nil {
+		log.Println(err)
+	}
 	log.Println(f)
 }
 
